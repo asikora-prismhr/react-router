@@ -1,11 +1,6 @@
-import React, { useState } from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Prompt
-} from "react-router-dom";
+import React, { useState } from 'react';
+import { Prompt } from "react-router-dom";
+
 
 // Sometimes you want to prevent the user from
 // navigating away from a page. The most common
@@ -13,31 +8,7 @@ import {
 // into a form but haven't submitted it yet, and
 // you don't want them to lose it.
 
-export default function PreventingTransitionsExample() {
-  return (
-    <Router>
-      <ul>
-        <li>
-          <Link to="/">Form</Link>
-        </li>
-        <li>
-          <Link to="/one">One</Link>
-        </li>
-        <li>
-          <Link to="/two">Two</Link>
-        </li>
-      </ul>
-
-      <Switch>
-        <Route path="/" exact children={<BlockingForm />} />
-        <Route path="/one" children={<h3>One</h3>} />
-        <Route path="/two" children={<h3>Two</h3>} />
-      </Switch>
-    </Router>
-  );
-}
-
-function BlockingForm() {
+export default function BlockingForm() {
   let [isBlocking, setIsBlocking] = useState(false);
 
   return (
