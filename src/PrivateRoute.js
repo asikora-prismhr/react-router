@@ -1,10 +1,5 @@
-import React from 'react';
-import {
-  Route,
-  Redirect,
-  useHistory,
-  useLocation
-} from "react-router-dom";
+import React from "react";
+import { Route, Redirect, useHistory, useLocation } from "react-router-dom";
 
 const fakeAuth = {
   isAuthenticated: false,
@@ -76,4 +71,16 @@ export function PrivateRoute({ children, ...rest }) {
       }
     />
   );
+}
+
+export function PublicPage() {
+  return <h3>Public</h3>;
+}
+
+export function PublicPageDetails() {
+  return <h3>Public Page Details</h3>;
+}
+
+export function ProtectedPage() {
+  return <h3>Protected</h3>;
 }
