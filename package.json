@@ -4,10 +4,12 @@
   "description": "A simple example deployed using react-codesandboxer",
   "main": "index.js",
   "dependencies": {
-    "react-router-dom": "latest",
-    "react-scripts": "2.0.0",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "react-router-breadcrumbs-hoc": "^3.2.4",
+    "react-router-dom": "latest",
+    "react-router-navigation-prompt": "^1.8.10",
+    "react-scripts": "2.0.0"
   },
   "devDependencies": {
     "react-scripts": "1.0.0"

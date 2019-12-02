@@ -4,22 +4,27 @@ import {
   Switch,
   Route,
   Link,
-  Redirect,
-  useHistory,
-  useLocation
 } from "react-router-dom";
+
+import { LoginPage, AuthButton, PrivateRoute } from './PrivateRoute';
 import BlockingForm from './BlockingForm';
+import Breadcrumbs from "./Breadcrumbs";
+import './App.css';
 
 export default function App() {
   return (
     <Router>
+      <Breadcrumbs />
       <AuthButton />
-        <ul>
+        <ul className="list">
           <li>
             <Link to="/">Form</Link>
           </li>
           <li>
-            <Link to="/public">Public Page</Link>
+            <ul className="list">
+              <li><Link to="/public">Public Page</Link></li>
+              <li><Link to="/public/details">Public Page Details</Link></li>
+            </ul>
           </li>
           <li>
             <Link to="/protected">Protected Page</Link>
@@ -30,6 +35,9 @@ export default function App() {
           <Route path="/" exact children={<BlockingForm />} />
           <Route path="/public">
             <PublicPage />
+          </Route>
+          <Route path="/public/details">
+            <PublicPageDetails />
           </Route>
           <Route path="/login">
             <LoginPage />
@@ -42,82 +50,14 @@ export default function App() {
   );
 }
 
-const fakeAuth = {
-  isAuthenticated: false,
-  authenticate(cb) {
-    fakeAuth.isAuthenticated = true;
-    setTimeout(cb, 100); // fake async
-  },
-  signout(cb) {
-    fakeAuth.isAuthenticated = false;
-    setTimeout(cb, 100);
-  }
-};
-
-function AuthButton() {
-  let history = useHistory();
-
-  return fakeAuth.isAuthenticated ? (
-    <p>
-      Welcome!{" "}
-      <button
-        onClick={() => {
-          fakeAuth.signout(() => history.push("/"));
-        }}
-      >
-        Sign out
-      </button>
-    </p>
-  ) : (
-    <p>You are not logged in.</p>
-  );
-}
-
-// A wrapper for <Route> that redirects to the login
-// screen if you're not yet authenticated.
-function PrivateRoute({ children, ...rest }) {
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        fakeAuth.isAuthenticated ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/login",
-              state: { from: location }
-            }}
-          />
-        )
-      }
-    />
-  );
-}
-
 function PublicPage() {
-  return <h3>Public</h3>;
+  return <h3>Public</h3>
+}
+
+function PublicPageDetails() {
+  return <h3>Public Page Details</h3>
 }
 
 function ProtectedPage() {
-  return <h3>Protected</h3>;
-}
-
-function LoginPage() {
-  let history = useHistory();
-  let location = useLocation();
-
-  let { from } = location.state || { from: { pathname: "/" } };
-  let login = () => {
-    fakeAuth.authenticate(() => {
-      history.replace(from);
-    });
-  };
-
-  return (
-    <div>
-      <p>You must log in to view the page at {from.pathname}</p>
-      <button onClick={login}>Log in</button>
-    </div>
-  );
+  return <h3>Protected</h3>
 }

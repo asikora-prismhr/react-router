@@ -1,53 +1,16 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import { Link } from "react-router-dom";
+import withBreadcrumbs from "react-router-breadcrumbs-hoc";
 
-// Each logical "route" has two components, one for
-// the sidebar and one for the main area. We want to
-// render both of them in different places when the
-// path matches the current URL.
-
-// We are going to use this route config in 2
-// spots: once for the sidebar and once in the main
-// content section. All routes are in the same
-// order they would appear in a <Switch>.
-const routes = [
-  {
-    path: "/",
-    main: () => <h2>Form</h2>
-  },
-  {
-    path: "/public",
-    main: () => <h2>Public page</h2>
-  },
-  {
-    path: "/protected",
-    main: () => <h2>Protected Page</h2>
-  }
-];
-
-export default function Breadcrumbs() {
-  return (
-    <Router>
-      <div style={{ display: "flex" }}>
-        <div style={{ flex: 1, padding: "10px" }}>
-          <Switch>
-            {routes.map((route, index) => (
-              // Render more <Route>s with the same paths as
-              // above, but different components this time.
-              <Route
-                key={index}
-                path={route.path}
-                children={<route.main />}
-              />
-            ))}
-          </Switch>
-        </div>
+const PureBreadcrumbs = ({ breadcrumbs }) => (
+  <div className="breadcrumbs">
+    {breadcrumbs.map(({ breadcrumb, match }, index) => (
+      <div className="bc" key={match.url}>
+        <Link to={match.url || ""}>{breadcrumb}</Link>
+        {index < breadcrumbs.length - 1 && ">"}
       </div>
-    </Router>
-  );
-}
+    ))}
+  </div>
+);
+
+export default withBreadcrumbs()(PureBreadcrumbs);
